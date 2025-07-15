@@ -1,1 +1,144 @@
-# el
+# @webtaku/el
+
+A small, type-safe utility for creating DOM elements or HTML strings with a concise API in TypeScript.
+
+## Features
+
+* Type-safe `Selector` syntax (`div#id.class`)
+* Create `HTMLElement` instances or HTML strings
+* Supports DOM properties, attributes, and inline styles
+* Simple and composable API
+
+## Installation
+
+```bash
+yarn add @webtaku/el
+```
+
+or
+
+```bash
+npm install @webtaku/el
+```
+
+## API
+
+### `el<S extends Selector>(selector?: S, ...children): ElementBySelector<S>`
+
+Creates a DOM element.
+
+#### Parameters
+
+* `selector` (optional): A string selector such as `div`, `span#my-id`, `p.my-class`, `section#id.class`. Defaults to `div`.
+* `...children`:
+
+  * `HTMLElement` — appended as a child node
+  * `string` — added as a text node
+  * `ElementProps<S>` — sets properties, attributes, or styles
+
+#### Returns
+
+A type-safe `HTMLElement` instance.
+
+#### Example
+
+```ts
+import { el } from '@webtaku/el';
+
+const button = el('button#myBtn.primary', 
+  'Click me',
+  { onclick: () => alert('Clicked!'), style: { color: 'red' } }
+);
+
+document.body.appendChild(button);
+```
+
+---
+
+### `html<S extends Selector>(selector?: S, ...children): string`
+
+Creates an HTML string.
+
+#### Parameters
+
+* `selector` (optional): A string selector such as `div`, `span#my-id`, `p.my-class`, `section#id.class`. Defaults to `div`.
+* `...children`:
+
+  * `HTMLElement` — converted to `outerHTML`
+  * `string` — added as HTML text
+  * `ElementProps<S>` — sets attributes and styles
+
+#### Returns
+
+An HTML string.
+
+#### Example
+
+```ts
+import { html } from '@webtaku/el';
+
+const markup = html('a.link#home', 
+  'Home',
+  { href: '/', style: { textDecoration: 'none' } }
+);
+
+console.log(markup);
+// <a id="home" class="link" href="/" style="textDecoration: none">Home</a>
+```
+
+---
+
+## Selector Syntax
+
+| Selector String       | Output                             |
+| --------------------- | ---------------------------------- |
+| `''`                  | `<div>`                            |
+| `'span'`              | `<span>`                           |
+| `'div#app'`           | `<div id="app">`                   |
+| `'p.text'`            | `<p class="text">`                 |
+| `'section#main.hero'` | `<section id="main" class="hero">` |
+
+## ElementProps
+
+An object that specifies properties, attributes, or styles for the element.
+
+```ts
+{
+  id?: string;
+  class?: string;
+  style?: Partial<CSSStyleDeclaration>;
+  [prop: string]: any;
+}
+```
+
+---
+
+## Example
+
+```ts
+document.body.appendChild(
+  el('div#container.box', 
+    el('h1', 'Hello World'),
+    el('p', 'This is a paragraph.', { style: { color: 'blue' } })
+  )
+);
+
+console.log(
+  html('div#container.box', 
+    html('h1', 'Hello World'),
+    html('p', 'This is a paragraph.', { style: { color: 'blue' } })
+  )
+);
+```
+
+---
+
+## License
+
+MIT OR Apache-2.0
+
+---
+
+## Contributing
+
+Contributions are welcome. Feel free to open issues or submit pull requests to improve the library.
