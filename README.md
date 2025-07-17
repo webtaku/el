@@ -1,11 +1,11 @@
 # @webtaku/el
 
-A small, type-safe utility for creating DOM elements or HTML strings with a concise API in TypeScript.
+A small, type-safe utility for creating **DOM elements** with a concise API in TypeScript.
 
 ## Features
 
 * Type-safe `Selector` syntax (`div#id.class`)
-* Create `HTMLElement` instances or HTML strings
+* Create **HTMLElement** instances
 * Supports DOM properties, attributes, and inline styles
 * Simple and composable API
 
@@ -25,7 +25,7 @@ npm install @webtaku/el
 
 ### `el<S extends Selector>(selector?: S, ...children): ElementBySelector<S>`
 
-Creates a DOM element.
+Creates a **DOM element**.
 
 #### Parameters
 
@@ -40,7 +40,7 @@ Creates a DOM element.
 
 A type-safe `HTMLElement` instance.
 
-#### Example
+## Example
 
 ```ts
 import { el } from '@webtaku/el';
@@ -52,41 +52,6 @@ const button = el('button#myBtn.primary',
 
 document.body.appendChild(button);
 ```
-
----
-
-### `html<S extends Selector>(selector?: S, ...children): string`
-
-Creates an HTML string.
-
-#### Parameters
-
-* `selector` (optional): A string selector such as `div`, `span#my-id`, `p.my-class`, `section#id.class`. Defaults to `div`.
-* `...children`:
-
-  * `HTMLElement` — converted to `outerHTML`
-  * `string` — added as HTML text
-  * `ElementProps<S>` — sets attributes and styles
-
-#### Returns
-
-An HTML string.
-
-#### Example
-
-```ts
-import { html } from '@webtaku/el';
-
-const markup = html('a.link#home', 
-  'Home',
-  { href: '/', style: { textDecoration: 'none' } }
-);
-
-console.log(markup);
-// <a id="home" class="link" href="/" style="textDecoration: none">Home</a>
-```
-
----
 
 ## Selector Syntax
 
@@ -111,8 +76,6 @@ An object that specifies properties, attributes, or styles for the element.
 }
 ```
 
----
-
 ## Example
 
 ```ts
@@ -122,22 +85,11 @@ document.body.appendChild(
     el('p', 'This is a paragraph.', { style: { color: 'blue' } })
   )
 );
-
-console.log(
-  html('div#container.box', 
-    html('h1', 'Hello World'),
-    html('p', 'This is a paragraph.', { style: { color: 'blue' } })
-  )
-);
 ```
-
----
 
 ## License
 
 MIT OR Apache-2.0
-
----
 
 ## Contributing
 
