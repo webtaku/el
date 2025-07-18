@@ -69,4 +69,31 @@ describe('el()', () => {
     expect(element.children[0]).toBe(child1);
     expect(element.children[1]).toBe(child2);
   });
+
+  describe('custom tag', () => {
+    it('creates a custom tag element', () => {
+      const element = el('my-component');
+      expect(element.tagName).toBe('MY-COMPONENT');
+    });
+
+    it('creates a custom tag with id and class', () => {
+      const element = el('my-widget#custom-id.foo.bar');
+      expect(element.tagName).toBe('MY-WIDGET');
+      expect(element.id).toBe('custom-id');
+      expect(element.classList.contains('foo')).toBe(true);
+      expect(element.classList.contains('bar')).toBe(true);
+    });
+
+    it('applies properties and styles to custom tag', () => {
+      const element = el('x-foo',
+        'Hello',
+        { title: 'tooltip', style: { color: 'red' }, customAttr: 'value' }
+      );
+      expect(element.tagName).toBe('X-FOO');
+      expect(element.title).toBe('tooltip');
+      expect(element.getAttribute('customAttr')).toBe('value');
+      expect(element.style.color).toBe('red');
+      expect(element.textContent).toContain('Hello');
+    });
+  });
 });

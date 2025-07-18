@@ -1,4 +1,6 @@
-type Tag = '' | keyof HTMLElementTagNameMap;
+type CustomTag = `${string}-${string}`;
+
+type Tag = '' | keyof HTMLElementTagNameMap | CustomTag;
 
 type Selector =
   | Tag
@@ -28,13 +30,17 @@ type ElementBySelector<S extends Selector> = (
   )
 );
 
-type ElementProps<S extends Selector> =
+type ElementProps<
+  S extends Selector,
+  A extends Record<string, unknown> = {}
+> =
   & Partial<Omit<ElementBySelector<S>, 'style'>>
-  & { style?: Partial<CSSStyleDeclaration> };
+  & { style?: Partial<CSSStyleDeclaration> }
+  & A;
 
-function el<S extends Selector>(
+function el<S extends Selector, A extends Record<string, unknown> = {}>(
   selector: S = 'div' as S,
-  ...children: (HTMLElement | string | ElementProps<S>)[]
+  ...children: (HTMLElement | string | ElementProps<S, A>)[]
 ): ElementBySelector<S> {
   const parts = selector.split(/([#.])/);
   const tag = parts[0] || 'div';
