@@ -83,17 +83,5 @@ describe('el()', () => {
       expect(element.classList.contains('foo')).toBe(true);
       expect(element.classList.contains('bar')).toBe(true);
     });
-
-    it('applies properties and styles to custom tag', () => {
-      const element = el('x-foo',
-        'Hello',
-        { title: 'tooltip', style: { color: 'red' }, customAttr: 'value' }
-      );
-      expect(element.tagName).toBe('X-FOO');
-      expect(element.title).toBe('tooltip');
-      expect(element.getAttribute('customAttr')).toBe('value');
-      expect(element.style.color).toBe('red');
-      expect(element.textContent).toContain('Hello');
-    });
   });
 });

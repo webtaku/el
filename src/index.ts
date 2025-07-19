@@ -30,17 +30,13 @@ type ElementBySelector<S extends Selector> = (
   )
 );
 
-type ElementProps<
-  S extends Selector,
-  A extends Record<string, unknown> = {}
-> =
+type ElementProps<S extends Selector> =
   & Partial<Omit<ElementBySelector<S>, 'style'>>
-  & { style?: Partial<CSSStyleDeclaration> }
-  & A;
+  & { style?: Partial<CSSStyleDeclaration> };
 
-function el<S extends Selector, A extends Record<string, unknown> = {}>(
+function el<S extends Selector>(
   selector: S = 'div' as S,
-  ...children: (HTMLElement | string | ElementProps<S, A>)[]
+  ...children: (HTMLElement | string | ElementProps<S> | undefined)[]
 ): ElementBySelector<S> {
   const parts = selector.split(/([#.])/);
   const tag = parts[0] || 'div';
@@ -54,12 +50,19 @@ function el<S extends Selector, A extends Record<string, unknown> = {}>(
     else if (type === '.') el.classList.add(value);
   }
 
+  const fragment = document.createDocumentFragment();
+
   for (const child of children) {
-    if (child instanceof HTMLElement) el.appendChild(child);
-    else if (typeof child === 'string') el.appendChild(document.createTextNode(child));
-    else {
+    if (child instanceof HTMLElement) {
+      fragment.appendChild(child);
+    } else if (typeof child === 'string') {
+      fragment.appendChild(document.createTextNode(child));
+    } else if (child) {
       const attrs = child as ElementProps<S>;
-      for (const [key, value] of Object.entries(attrs)) {
+      for (const key in attrs) {
+        if (!Object.prototype.hasOwnProperty.call(attrs, key)) continue;
+
+        const value = (attrs as any)[key];
         if (key === 'style' && typeof value === 'object') {
           Object.assign(el.style, value);
         } else if (key === 'class') {
@@ -72,6 +75,8 @@ function el<S extends Selector, A extends Record<string, unknown> = {}>(
       }
     }
   }
+
+  el.appendChild(fragment);
 
   return el as ElementBySelector<S>;
 }
