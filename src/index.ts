@@ -68,7 +68,7 @@ function el<S extends Selector>(
         } else if (key === 'dataset' && typeof value === 'object') {
           Object.assign(el.dataset, value);
         } else if (key === 'className') {
-          el.classList.add(value.split(/\s+/));
+          el.classList.add(...value.split(/\s+/));
         } else if (key in el) {
           (el as any)[key] = value;
         } else {
