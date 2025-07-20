@@ -65,8 +65,8 @@ function el<S extends Selector>(
         const value = (attrs as any)[key];
         if (key === 'style' && typeof value === 'object') {
           Object.assign(el.style, value);
-        } else if (key === 'class') {
-          el.classList.add(...(value as string).split(/\s+/));
+        } else if (key === 'dataset' && typeof value === 'object') {
+          Object.assign(el.dataset, value);
         } else if (key in el) {
           (el as any)[key] = value;
         } else {

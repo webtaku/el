@@ -84,4 +84,30 @@ describe('el()', () => {
       expect(element.classList.contains('bar')).toBe(true);
     });
   });
+
+  describe('dataset', () => {
+    it('assigns dataset properties correctly', () => {
+      const element = el('div', {
+        dataset: {
+          foo: 'bar',
+          answer: '42'
+        }
+      });
+
+      expect(element.dataset.foo).toBe('bar');
+      expect(element.dataset.answer).toBe('42');
+    });
+
+    it('assigns dataset together with other attributes', () => {
+      const element = el('span#myid.foo', {
+        dataset: { hello: 'world' },
+        title: 'my title'
+      });
+
+      expect(element.id).toBe('myid');
+      expect(element.classList.contains('foo')).toBe(true);
+      expect(element.dataset.hello).toBe('world');
+      expect(element.title).toBe('my title');
+    });
+  });
 });
