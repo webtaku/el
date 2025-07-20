@@ -100,6 +100,7 @@ describe('el()', () => {
 
     it('assigns dataset together with other attributes', () => {
       const element = el('span#myid.foo', {
+        className: 'bar',
         dataset: { hello: 'world' },
         title: 'my title'
       });
