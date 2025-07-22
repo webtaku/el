@@ -56,7 +56,12 @@ function el<S extends Selector>(
     if (child instanceof HTMLElement) {
       fragment.appendChild(child);
     } else if (typeof child === 'string') {
-      fragment.appendChild(document.createTextNode(child));
+      const lines = child.split('\n');
+      for (let i = 0; i < lines.length; i++) {
+        if (i > 0) fragment.appendChild(document.createElement('br'));
+        const line = lines[i];
+        if (line) fragment.appendChild(document.createTextNode(line));
+      }
     } else if (child) {
       const attrs = child as ElementProps<S>;
       for (const key in attrs) {

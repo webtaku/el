@@ -111,4 +111,36 @@ describe('el()', () => {
       expect(element.title).toBe('my title');
     });
   });
+
+  describe('handling \\n in strings', () => {
+    it('inserts <br> elements for each \\n in text content', () => {
+      const element = el('div', 'hello\nworld\nhere');
+      expect(element.childNodes.length).toBe(5);
+
+      expect(element.childNodes[0].nodeType).toBe(Node.TEXT_NODE);
+      expect(element.childNodes[0].textContent).toBe('hello');
+
+      expect(element.childNodes[1].nodeName).toBe('BR');
+
+      expect(element.childNodes[2].nodeType).toBe(Node.TEXT_NODE);
+      expect(element.childNodes[2].textContent).toBe('world');
+
+      expect(element.childNodes[3].nodeName).toBe('BR');
+
+      expect(element.childNodes[4].nodeType).toBe(Node.TEXT_NODE);
+      expect(element.childNodes[4].textContent).toBe('here');
+    });
+
+    it('works when \\n is at the start or end', () => {
+      const element = el('div', '\nstart\nend\n');
+      // childNodes: [BR, text:start, BR, text:end, BR]
+      expect(element.childNodes.length).toBe(5);
+
+      expect(element.childNodes[0].nodeName).toBe('BR');
+      expect(element.childNodes[1].textContent).toBe('start');
+      expect(element.childNodes[2].nodeName).toBe('BR');
+      expect(element.childNodes[3].textContent).toBe('end');
+      expect(element.childNodes[4].nodeName).toBe('BR');
+    });
+  });
 });
