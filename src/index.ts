@@ -72,7 +72,9 @@ function el<S extends Selector>(
           Object.assign(el.style, value);
         } else if (key === 'dataset' && typeof value === 'object') {
           Object.assign(el.dataset, value);
-        } else if (key === 'className') {
+        } else if (key === 'id') {
+          el.id = value;
+        } else if (key === 'class' || key === 'className') {
           const classNames = value.split(/\s+/);
           for (const className of classNames) {
             if (!className) continue;
