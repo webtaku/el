@@ -23,14 +23,14 @@ npm install @webtaku/el
 
 ## API
 
-### `el<S extends Selector>(selector?: S, ...children): ElementBySelector<S>`
+### `el<S extends Selector>(selector?: S, ...args): ElementBySelector<S>`
 
 Creates a **DOM element**.
 
 #### Parameters
 
 * `selector` (optional): A string selector such as `div`, `span#my-id`, `p.my-class`, `section#id.class`. Defaults to `div`.
-* `...children`:
+* `...args`:
 
   * `HTMLElement` — appended as a child node
   * `string` — added as a text node

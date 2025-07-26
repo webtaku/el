@@ -36,7 +36,7 @@ type ElementProps<S extends Selector> =
 
 function el<S extends Selector>(
   selector: S = 'div' as S,
-  ...children: (HTMLElement | string | ElementProps<S> | undefined)[]
+  ...args: (HTMLElement | string | ElementProps<S> | undefined)[]
 ): ElementBySelector<S> {
   const parts = selector.split(/([#.])/);
   const tag = parts[0] || 'div';
@@ -52,18 +52,18 @@ function el<S extends Selector>(
 
   const fragment = document.createDocumentFragment();
 
-  for (const child of children) {
-    if (child instanceof HTMLElement) {
-      fragment.appendChild(child);
-    } else if (typeof child === 'string') {
-      const lines = child.split('\n');
+  for (const arg of args) {
+    if (arg instanceof HTMLElement) {
+      fragment.appendChild(arg);
+    } else if (typeof arg === 'string') {
+      const lines = arg.split('\n');
       for (let i = 0; i < lines.length; i++) {
         if (i > 0) fragment.appendChild(document.createElement('br'));
         const line = lines[i];
         if (line) fragment.appendChild(document.createTextNode(line));
       }
-    } else if (child) {
-      const attrs = child as ElementProps<S>;
+    } else if (arg) {
+      const attrs = arg as ElementProps<S>;
       for (const key in attrs) {
         if (!Object.prototype.hasOwnProperty.call(attrs, key)) continue;
 
